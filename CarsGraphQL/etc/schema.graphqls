@@ -1,0 +1,11 @@
+#Magento Cars GraphQl Schema
+
+type Query {
+    cars: [Cars] @resolver(class: "SkillUp\\CarsGraphQL\\Model\\Resolver\\Cars") @doc(description: "The cars query returns information about the car")
+}
+
+type Cars @doc(description: "Cars defines the Car model and other details") {
+    id: Int
+    brand: String
+    model: String
+}

@@ -59,8 +59,9 @@ class Cars implements ResolverInterface
         array $value = null,
         array $args = null
     ) : Value {
+
         try {
-            $data = $this->getCarData();
+            $data = $this->getCarData($args);
             $result = function () use ($data) {
                 return !empty($data) ? $data : [];
             };
@@ -72,11 +73,20 @@ class Cars implements ResolverInterface
         }
     }
 
-    private function getCarData() : array
+    private function getCarData($args) : array
     {
         try {
             $carData = [];
             $carCollection = $this->carFactory->create();
+            if(isset($args['filter']['id'])) {
+                $carCollection->addFieldToFilter('id', $args['filter']['id']);
+            }
+            elseif(isset($args['filter']['brand'])) {
+                $carCollection->addFieldToFilter('brand', $args['filter']['brand']);
+            }
+            elseif(isset($args['filter']['model'])) {
+                $carCollection->addFieldToFilter('model', $args['filter']['model']);
+            }
             foreach ($carCollection as $car) {
                 array_push($carData, $car->getData());
             }

@@ -1,11 +1,22 @@
 #Magento Cars GraphQl Schema
 
 type Query {
-    cars: [Cars] @resolver(class: "SkillUp\\CarsGraphQL\\Model\\Resolver\\Cars") @doc(description: "The cars query returns information about the car")
+    cars(
+        search: String ,
+        filter: ProductAttributeFilterInput @doc(description: "The product attributes to search for and return."),
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default value is 20."),
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default value is 1."),
+    ): [Cars] @resolver(class: "SkillUp\\CarsGraphQL\\Model\\Resolver\\Cars") @doc(description: "The cars query returns information about the car")
 }
 
 type Cars @doc(description: "Cars defines the Car model and other details") {
     id: Int
     brand: String
     model: String
+}
+
+input ProductAttributeFilterInput {
+    id: FilterTypeInput
+    brand: FilterTypeInput
+    model: FilterTypeInput
 }
